@@ -1,5 +1,5 @@
 {
-  "name": "testsuit1",
+  "name": "my-app",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -9,11 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@nhost/nhost-js": "^1.5.0",
-    "@react-native-google-signin/google-signin": "^8.0.0",
     "expo": "~46.0.13",
     "expo-status-bar": "~1.4.0",
-    "graphql": "^16.6.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
