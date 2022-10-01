@@ -4,12 +4,17 @@ import { store } from '../../../redux/store'
 import { Provider,useSelector,useDispatch } from 'react-redux'
 import type { RootState } from "../../../redux/store";
 import { setAuthentication } from '../../../redux/VolunteerSlice';
+import { persistor } from '../../../redux/store';
+import { PersistGate } from "redux-persist/integration/react";
+
 
 
 const Profile = () => {
   return (
     <Provider store={store}>
+           <PersistGate loading={null} persistor={persistor}>
   <Hero/>
+           </PersistGate>
   </Provider>
   )
 }
