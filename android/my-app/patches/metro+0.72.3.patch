@@ -1,0 +1,16 @@
+diff --git a/node_modules/metro/src/lib/contextModuleTemplates.js b/node_modules/metro/src/lib/contextModuleTemplates.js
+index e69fd1c..5137479 100644
+--- a/node_modules/metro/src/lib/contextModuleTemplates.js
++++ b/node_modules/metro/src/lib/contextModuleTemplates.js
+@@ -72,7 +72,10 @@ function createFileMap(modulePath, files, processModule) {
+       if (!filePath.startsWith(".")) {
+         filePath = `.${path.sep}` + filePath;
+       }
+-
++      // NOTE(byCedric): On Windows, normalize the backslashes to forward slashes to match the behavior in Webpack.
++      if (path.sep === '\\') {
++        filePath = filePath.replace(/\\/g, '/');
++      }
+       const key = JSON.stringify(filePath); // NOTE(EvanBacon): Webpack uses `require.resolve` in order to load modules on demand,
+       // Metro doesn't have this functionality so it will use getters instead. Modules need to
+       // be loaded on demand because if we imported directly then users would get errors from importing
