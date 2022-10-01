@@ -70,8 +70,7 @@ const Hero = () => {
         ToastAndroid.showWithGravity("Registration Successful",ToastAndroid.LONG,ToastAndroid.CENTER)
         setTimeout(()=>{
           link.push("/menu")
-
-        },3000)
+        },5000)
        
       })).catch((e)=>{
         console.log("An Error Occured",e)

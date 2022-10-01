@@ -1,4 +1,4 @@
-import { View, Text ,Image, Button} from 'react-native'
+import { View, Text ,Image, Button, Alert} from 'react-native'
 import React from 'react'
 import { store } from '../../../redux/store'
 import { Provider,useSelector,useDispatch } from 'react-redux'
@@ -84,7 +84,12 @@ return (
              {`Phone Number :- ${userPhone}`}
         </Text>
         <Button title="Logout" onPress={()=>{
-            dispatch(setAuthentication(false))
+            Alert.alert("Logout","Are you sure you want to logout?",[
+                {
+                    text:"Yes",
+                    onPress:()=>{dispatch(setAuthentication(false))}
+                }
+            ])
         }}/>
 
     </View>

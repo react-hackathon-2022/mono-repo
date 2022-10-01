@@ -50,14 +50,14 @@ export default function Hero() {
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Welcome New Volunteer</Text>
               <TextInput placeholder="Enter Email Address"  value={emailInput}  onChangeText={(e)=>{
-                if(e!=""){
+                
                 setemailInput(prev=>e)
-                }
+            
               }}/>
               <TextInput placeholder="Enter Password" value={passwordInput} onChangeText={(e)=>{
-                if(e!= ""){
+         
                 setpasswordInput(prev=>e)
-                }
+          
               }}/>
               <View style={{
                 margin: 20
@@ -83,6 +83,7 @@ export default function Hero() {
                       }`,
                     }
                   }).then((data)=>{
+                    console.log(data)
                     const ErrorMatchingString = new RegExp('Uniqueness violation. duplicate key value violates unique constraint','g');
                     if(data.data.data!=undefined){
                       if(data.data.data.insert_VOLUNTEER_one.REG_DONE==false){
