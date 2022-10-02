@@ -6,10 +6,12 @@ import type { RootState } from "../../../redux/store";
 import { setAuthentication } from '../../../redux/VolunteerSlice';
 import { persistor } from '../../../redux/store';
 import { PersistGate } from "redux-persist/integration/react";
+import { useLink } from 'expo-router';
 
 
 
 const Profile = () => {
+   
   return (
     <Provider store={store}>
            <PersistGate loading={null} persistor={persistor}>
@@ -20,6 +22,7 @@ const Profile = () => {
 }
 
 const Hero = () =>{
+    const link = useLink();
     const dispatch = useDispatch()
     const [userEmail,useProfileUrl,userName,userAddress,userPhone] = useSelector((state:RootState) => [state.volunteer.EMAIL_ID,state.volunteer.PROFILE_URL,state.volunteer.NAME,state.volunteer.ADDRESS,state.volunteer.PHONE_NUMBER])
     console.log(useProfileUrl)
@@ -87,7 +90,10 @@ return (
             Alert.alert("Logout","Are you sure you want to logout?",[
                 {
                     text:"Yes",
-                    onPress:()=>{dispatch(setAuthentication(false))}
+                    onPress:()=>{
+                        dispatch(setAuthentication(false))
+                        link.push("/menu")
+                    }
                 }
             ])
         }}/>

@@ -14,9 +14,7 @@ import { Link,useLink } from "expo-router";
 import { useState } from "react";
 import type { RootState } from "../../redux/store";
 import {useDispatch } from 'react-redux'
-import { setEmailPass } from "../../redux/VolunteerSlice";
-
-
+import { setAuthentication,setProfileUrl,setVolunteerInfo,setEmailPass } from "../../redux/VolunteerSlice";
 
 export default function Hero() {
     const dispatch = useDispatch()
@@ -83,7 +81,11 @@ export default function Hero() {
                       }`,
                     }
                   }).then((data)=>{
-                    console.log(data)
+                    console.log('------------------')
+                    console.log(emailInput,passwordInput)
+                    console.log('------------------')
+                    console.log(data.data)
+                    console.log('------------------')
                     const ErrorMatchingString = new RegExp('Uniqueness violation. duplicate key value violates unique constraint','g');
                     if(data.data.data!=undefined){
                       if(data.data.data.insert_VOLUNTEER_one.REG_DONE==false){
@@ -122,16 +124,12 @@ export default function Hero() {
           
           :<View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>CREATE NEW ACCOUNT</Text>
+            <Text style={styles.modalText}>Login With Exisitng Account</Text>
             <TextInput placeholder="Enter Email Address"  value={emailInput}  onChangeText={(e)=>{
-              if(e!=""){
               setemailInput(prev=>e)
-              }
             }}/>
             <TextInput placeholder="Enter Password" value={passwordInput} onChangeText={(e)=>{
-              if(e!= ""){
               setpasswordInput(prev=>e)
-              }
             }}/>
             <View style={{
               margin: 20
@@ -147,15 +145,59 @@ export default function Hero() {
                   },
                   data:{
                     "query": `query{
-                      VOLUNTEER_by_pk(EMAIL_ID:)
+                      VOLUNTEER_by_pk(EMAIL_ID:"${emailInput}"){
+                        PASSWORD
+                      }
                     }`,
                   }
                 }).then((data)=>{
-                  console.log(data.data)
-                }).catch(e=>{
-                  if(e.data.insert_CUSTOMER_one.REG_DONE==false){
-                    alert("SignIn Successful ,Please Continue Further")
+                  if(data.data.data.VOLUNTEER_by_pk==null){
+                    alert("Email Not Registered in Our System")
+                  }else if(data.data.data.VOLUNTEER_by_pk.PASSWORD!=passwordInput){
+                    alert("Password Incorrect")
+                    
+                  }else if(data.data.data.VOLUNTEER_by_pk.REG_DONE==true){
+                    const ADRESS = data.data.data.VOLUNTEER_by_pk.ADDRESS
+                    const phoneNumber = data.data.data.VOLUNTEER_by_pk.PHONE_NUMBER
+                    const Name = data.data.data.VOLUNTEER_by_pk.NAME
+                    
+                    dispatch(setEmailPass({
+                      EMAIL: emailInput,
+                      PASSWORD: passwordInput
+                    }))
+                    dispatch(setVolunteerInfo({
+                      ADDRESS:ADRESS,
+                      PHONE_NUMBER:phoneNumber,
+                      NAME:Name
+                    }))
+                    dispatch(setProfileUrl(Name))
+                    dispatch(setAuthentication(true))
+                    ToastAndroid.show(`Welcome ${Name}`,ToastAndroid.LONG)
+
+                    setTimeout(()=>{
+                      link.push("/menu")
+                    },5000)
+
+
+                  }else{
+
+                    ToastAndroid.showWithGravity("You Have Not Completed our Registration Process , You will be redirected to Registration page",ToastAndroid.LONG, ToastAndroid.TOP);
+                    setTimeout(()=>{
+                      link.push({
+                        pathname: "/console/registration_fill",
+                      })
+                      
+                    },3000)
+
                   }
+                }).catch(e=>{
+                  console.log(e)
+
+                  // if(e.data.insert_CUSTOMER_one.REG_DONE==false){
+                  //   alert("SignIn Successful ,Please Continue Further")
+                  // }
+
+
                 })
               }else{
                 ToastAndroid.show("One or More Input Boxes can't be empty",ToastAndroid.LONG)
