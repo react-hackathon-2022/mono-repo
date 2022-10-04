@@ -1,8 +1,10 @@
 import Link from "next/link";
-const index:React.FC = () =>{
+import { useProviderLink } from '@nhost/react'
+const Index:React.FC = () =>{
+    const {google } = useProviderLink()
 
     return (<>
-        <Link href={"/foodify/option"}
+        <Link href={google}
       >
             Start Here
         </Link>
@@ -10,4 +12,4 @@ const index:React.FC = () =>{
         </>)
 }
 
-export default index
+export default Index
