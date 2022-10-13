@@ -2,8 +2,9 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import {useAuthenticationStatus} from "@nhost/react";
+import {useAccessToken,useDecodedAccessToken, useAuthenticationStatus, useUserData, useUserEmail} from "@nhost/react";
 import {useRouter} from "next/router";
+import useUserID from '../Components/useUserID';
 
 
 const Home: NextPage = () => {
@@ -75,7 +76,7 @@ const Home: NextPage = () => {
     )
 
   }else  if(isAuthenticated){
-  router.push('/foodify/option')
+  router.push('/foodify/Option')
  return <>
  </>
   }else{

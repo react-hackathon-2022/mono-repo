@@ -7,8 +7,9 @@ import {
     useUserAvatarUrl,
     useUserDisplayName,
     useUserEmail,
-    useUserId
+    // useUserId
 } from '@nhost/react'
+import useUserId from "../../Components/useUserID";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {useLocation} from "../../Components/useLocation";
